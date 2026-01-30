@@ -5,56 +5,12 @@ import sys
 import keyboard
 import time 
 
-GD_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe'
-GD_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Geometry_Dash\\Geometry_Dash\\Geometry-Dash-AnkerGames\\Geometry_Dash\\'
-GD_ARGS = ['-game', '-novid'] 
+GAME_EXE_PATH = r'c:\PATH'
+GAME_WORKING_DIR = r'c:\PATH - EXE'
+GAME_ARGS = ['-game', '-novid'] 
 
-MR_P_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Mr-President-AnkerGames\Mr.President!\Mr.Prez.exe'
-MR_P_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Mr-President-AnkerGames\\Mr.President!\\'
-MR_P_ARGS = ['-game', '-novid'] 
-
-ROBLOX_EXE_PATH = r'C:\XboxGames\Roblox\Content\RobloxPlayerBeta.exe'
-ROBLOX_WORKING_DIR = r'C:\\XboxGames\\Roblox\\Content\\'
-ROBLOX_ARGS = ['-game', '-novid']
-
-TERRARIA_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Terraria-AnkerGames\Terraria\Terraria.exe'
-TERRARIA_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Terraria-AnkerGames\\Terraria\\'
-TERRARIA_ARGS = ['-game', '-novid']
-
-PORTAL_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Portal\Portal\Portal\Portal.exe'
-PORTAL_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Portal\\Portal\\Portal\\'
-PORTAL_ARGS = ['-game', '-novid']
-
-PEAK_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Peak-AnkerGames\Peak\PEAK\PEAK\PEAK.exe'
-PEAK_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Peak-AnkerGames\\Peak\\PEAK\\PEAK\\'
-PEAK_ARGS = ['-game', '-novid'] 
-
-BATMAN_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\LEGO-Batman-2-DC-Super-Heroes-AnkerGames\LEGO Batman 2 - DC Super Heroes\LEGOBatman2.exe'
-BATMAN_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\LEGO-Batman-2-DC-Super-Heroes-AnkerGames\\LEGO Batman 2 - DC Super Heroes\\'
-BATMAN_ARGS = ['-game', '-novid'] 
-
-BAlATRO_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Balatro-AnkerGames\Balatro\Balatro.exe'
-BALATRO_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Balatro-AnkerGames\\Balatro\\'
-BALATRO_ARGS = ['-game', '-novid'] 
-
-HALF_LIFE_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\Half-Life-AnkerGames\Half-Life-AnkerGames\hl.exe'
-HALF_LIFE_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\Half-Life-AnkerGames\\Half-Life-AnkerGames\\'
-HALF_LIFE_ARGS = ['-game', '-novid'] 
-
-DOOM_EXE_PATH = r'C:\Users\there_mskrv0t\Downloads\DOOM-64-AnkerGames\Doom 64\doom64_x64.exe'
-DOOM_WORKING_DIR = r'C:\\Users\\there_mskrv0t\\Downloads\\DOOM-64-AnkerGames\\Doom 64\\'
-DOOM_ARGS = ['-game', '-novid'] 
 launched_games = {
-    'GD': False,
-    'MR_P': False,
-    'DOOM': False,
-    'roblox': False,
-    'terraria': False,
-    'peak': False,
-    'batman': False,
-    'balatro': False,
-    'portal': False,
-    'half_life': False
+    'GAME': False,
 }
 
 def launch_game_direct(game_name, exe_path, working_dir, args):
@@ -95,52 +51,10 @@ def log_out():
     os.system("shutdown /l")
 
 keyboard.add_hotkey('ctrl+1', launch_game_direct, 
-                    args=('GD', GD_EXE_PATH, GD_WORKING_DIR, GD_ARGS))
+                    args=('GAME', GAME_EXE_PATH, GAME_WORKING_DIR, GAME_ARGS))
 
-keyboard.add_hotkey('ctrl+2', launch_game_direct, 
-                    args=('MR_P', MR_P_EXE_PATH, MR_P_WORKING_DIR, MR_P_ARGS))
-
-keyboard.add_hotkey('ctrl+3', launch_game_direct,
-                    args=('DOOM', DOOM_EXE_PATH, DOOM_WORKING_DIR, DOOM_ARGS))
-
-keyboard.add_hotkey('alt+0', quit_script)
-
-keyboard.add_hotkey('alt+7', kill_script)
-
-keyboard.add_hotkey('alt+9', restart)
-
-keyboard.add_hotkey('alt+8', log_out)
-
-keyboard.add_hotkey('ctrl+4', launch_game_direct,
-                    args=('roblox', ROBLOX_EXE_PATH, ROBLOX_WORKING_DIR, ROBLOX_ARGS))
-
-keyboard.add_hotkey('ctrl+5', launch_game_direct,
-                    args=('terraria', TERRARIA_EXE_PATH, TERRARIA_WORKING_DIR, TERRARIA_ARGS))
-
-keyboard.add_hotkey('ctrl+6', launch_game_direct,
-                    args=('peak', PEAK_EXE_PATH, PEAK_WORKING_DIR, PEAK_ARGS))
-
-keyboard.add_hotkey('ctrl+7', launch_game_direct,
-                    args=('batman', BATMAN_EXE_PATH, BATMAN_WORKING_DIR, BATMAN_ARGS))
-
-keyboard.add_hotkey('ctrl+8', launch_game_direct,
-                    args=('balatro', BAlATRO_EXE_PATH, BALATRO_WORKING_DIR, BALATRO_ARGS))
-
-keyboard.add_hotkey('ctrl+9', launch_game_direct,
-                    args=('portal', PORTAL_EXE_PATH, PORTAL_WORKING_DIR, PORTAL_ARGS))
-keyboard.add_hotkey('ctrl+0', launch_game_direct,
-                    args=('half_life', HALF_LIFE_EXE_PATH, HALF_LIFE_WORKING_DIR, HALF_LIFE_ARGS))
 print("Python script ready and monitoring keyboard in the background.")
-print(">>> Press 'Ctrl + 0' to launch HALF LIFE (EXE) <<<")
-print(">>> Press 'Ctrl + 1' to launch GD (EXE) <<<")
-print(">>> Press 'Ctrl + 2' to launch Mr President! (EXE) <<<")
-print(">>> Press 'Ctrl + 3' to launch Doom (EXE) <<<")
-print(">>> Press 'Ctrl + 4' to launch ROBLOX (EXE) <<<")
-print(">>> Press 'Ctrl + 5' to launch TERRARIA (EXE) <<<")
-print(">>> Press 'Ctrl + 6' to launch peak (EXE) <<<")
-print(">>> Press 'Ctrl + 7' to launch Lego Batman 2 (EXE) <<<")
-print(">>> Press 'Ctrl + 8' to launch balatro (EXE) <<<")
-print(">>> Press 'Ctrl + 9' to launch portal (EXE) <<<")
+print(">>> Press 'Ctrl + 1' to launch GAME (EXE) <<<")
 print(">>> Press 'alt + 7' to SHUTDOWN COMPUTER <<<")
 print(">>> Press 'alt + 8' to LOG OUT <<<")
 print(">>> Press 'alt + 9' to RESTART COMPUTER <<<")
