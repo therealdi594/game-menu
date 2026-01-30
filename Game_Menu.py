@@ -7,17 +7,17 @@ import sys
 GAMES = {
     "1": {
         "name": "Geometry Dash",
-        "exe": r"C:\Users\there_mskrv0t\Downloads\Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe",
+        "exe": r"C:\Users\your_name\Downloads\Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe",
         "args": ["-game", "-novid"]
     },
     "2": {
-        "name": "Mr President",
-        "exe": r"C:\Users\there_mskrv0t\Downloads\Mr-President-AnkerGames\Mr.President!\Mr.Prez.exe",
+        "name": "portal",
+        "exe": r"C:\Users\your_name\Downloads\Portal\Portal\Portal\Portal.exe",
         "args": ["-game", "-novid"]
     },
     "3": {
         "name": "DOOM 64",
-        "exe": r"C:\Users\there_mskrv0t\Downloads\DOOM-64-AnkerGames\Doom 64\DOOM64_x64.exe",
+        "exe": r"C:\Users\your_name\Downloads\DOOM-64-AnkerGames\Doom 64\DOOM64_x64.exe",
         "args": ["-game", "-novid"]
     }
 }
@@ -53,7 +53,7 @@ def main():
     print(f"\nDIRECTIVE ACTIVE: {directive}")
     print("-" * 30)
     print("1: Launch Geometry Dash")
-    print("2: Launch Mr President")
+    print("2: Launch Portal")
     print("3: Launch DOOM 64")
     print("Q: Quit | S: Shutdown | L: Logout")
     print("-" * 30)
