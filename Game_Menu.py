@@ -1,9 +1,10 @@
 #this code was made by therealdi594
-import subprocess
 import os
-import sys
+import subprocess
+import time
 
 # --- THE GAMES ---
+# Updated to use the folder containing the exe as the working directory
 GAMES = {
     "1": {
         "name": "Geometry Dash",
@@ -11,7 +12,7 @@ GAMES = {
         "args": ["-game", "-novid"]
     },
     "2": {
-        "name": "portal",
+        "name": "Portal",
         "exe": r"C:\Users\your_name\Downloads\Portal\Portal\Portal\Portal.exe",
         "args": ["-game", "-novid"]
     },
@@ -22,63 +23,41 @@ GAMES = {
     }
 }
 
-def find_runnable_directive():
-    """Quickly finds the first writable/runnable folder using system commands."""
-    print("Locating a valid directive folder... (Skipping Windows/Program Files)")
-    
-    # We check common user-writable areas first for speed
-    search_paths = [os.environ['USERPROFILE'], "D:\\", "E:\\"]
-    
-    for path in search_paths:
-        if not os.path.exists(path): continue
+def run_launcher():
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
+        print("--- GAME LAUNCHER ---")
+        for key, game in GAMES.items():
+            print(f"{key}: {game['name']}")
+        print("Q: Quit | S: Shutdown | L: Logout")
+        print("-" * 40)
         
-        # Check current folder and its first level of subfolders
-        try:
-            for entry in os.scandir(path):
-                if entry.is_dir():
-                    # If we can write a test file, it's a valid directive
-                    test_file = os.path.join(entry.path, "temp.txt")
-                    try:
-                        with open(test_file, 'w') as f: f.write('1')
-                        os.remove(test_file)
-                        return entry.path # Found it!
-                    except:
-                        continue
-        except PermissionError:
-            continue
-    return os.environ['USERPROFILE'] # Fallback to User folder
-
-def main():
-    directive = find_runnable_directive()
-    print(f"\nDIRECTIVE ACTIVE: {directive}")
-    print("-" * 30)
-    print("1: Launch Geometry Dash")
-    print("2: Launch Portal")
-    print("3: Launch DOOM 64")
-    print("Q: Quit | S: Shutdown | L: Logout")
-    print("-" * 30)
-
-    choice = input("Select an option: ").upper()
-
-    if choice in GAMES:
-        game = GAMES[choice]
-        print(f"Launching {game['name']}...")
-        try:
-            subprocess.Popen(
-                [game['exe']] + game['args'],
-                cwd=directive, # The EXE will now 'read' this folder
-                shell=True
-            )
-        except Exception as e:
-            print(f"Error: {e}")
+        choice = input("Select Game (1-3) or System Action: ").upper()
+        
+        if choice in GAMES:
+            g = GAMES[choice]
+            exe_path = g['exe']
             
-    elif choice == 'S':
-        os.system("shutdown /s /t 0")
-    elif choice == 'L':
-        os.system("shutdown /l")
-    elif choice == 'Q':
-        sys.exit()
+            # Key Change: Get the specific directory for THIS game's executable
+            game_dir = os.path.dirname(exe_path)
+            
+            print(f"Starting {g['name']} in {game_dir}...")
+            
+            try:
+                # Use 'cwd' to tell the game to look in its own folder for files
+                # Changed shell to False for better stability with direct exe paths
+                subprocess.Popen([exe_path] + g['args'], cwd=game_dir, shell=False)
+                time.sleep(2) 
+            except Exception as e:
+                print(f"Error launching game: {e}")
+                time.sleep(3)
+                
+        elif choice == 'S':
+            os.system("shutdown /s /t 0")
+        elif choice == 'L':
+            os.system("shutdown /l")
+        elif choice == 'Q':
+            break
 
 if __name__ == "__main__":
-    while True:
-        main()
+    run_launcher()
