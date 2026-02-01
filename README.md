@@ -1,2 +1,2 @@
 this file was create by therealdi594
-for the '"name"_WORKING_DIR', you need to double up on the backslashes
+this script may work in schools, i cannot test until monday
