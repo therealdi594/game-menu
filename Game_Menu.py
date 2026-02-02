@@ -3,22 +3,26 @@ import os
 import subprocess
 import time
 
+# Get the current user's home folder (e.g., C:\Users\Student123)
+user_home = os.environ.get('USERPROFILE')
+downloads_path = os.path.join(user_home, "Downloads")
+
 # --- THE GAMES ---
-# Updated to use the folder containing the exe as the working directory
+# We use relative folders from the Downloads folder
 GAMES = {
     "1": {
         "name": "Geometry Dash",
-        "exe": r"C:\Users\your_name\Downloads\Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe",
+        "rel_path": r"Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe",
         "args": ["-game", "-novid"]
     },
     "2": {
         "name": "Portal",
-        "exe": r"C:\Users\your_name\Downloads\Portal\Portal\Portal\Portal.exe",
+        "rel_path": r"Portal\Portal\Portal\Portal.exe",
         "args": ["-game", "-novid"]
     },
     "3": {
         "name": "DOOM 64",
-        "exe": r"C:\Users\your_name\Downloads\DOOM-64-AnkerGames\Doom 64\DOOM64_x64.exe",
+        "rel_path": r"DOOM-64-AnkerGames\Doom 64\DOOM64_x64.exe",
         "args": ["-game", "-novid"]
     }
 }
@@ -26,38 +30,41 @@ GAMES = {
 def run_launcher():
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')
-        print("--- GAME LAUNCHER ---")
+        print(f"=== SCHOOL LAUNCHER | USER: {os.getlogin()} ===")
+        
+        valid_games = {}
         for key, game in GAMES.items():
-            print(f"{key}: {game['name']}")
-        print("Q: Quit | S: Shutdown | L: Logout")
+            # Combine Downloads path with the game's specific folder
+            full_exe_path = os.path.join(downloads_path, game['rel_path'])
+            
+            if os.path.exists(full_exe_path):
+                print(f"{key}: {game['name']} [READY]")
+                valid_games[key] = full_exe_path
+            else:
+                print(f"{key}: {game['name']} [NOT FOUND IN DOWNLOADS]")
+        
         print("-" * 40)
+        print("Q: Quit")
         
-        choice = input("Select Game (1-3) or System Action: ").upper()
+        choice = input("\nSelect Game: ").upper()
         
-        if choice in GAMES:
-            g = GAMES[choice]
-            exe_path = g['exe']
+        if choice in valid_games:
+            exe_path = valid_games[choice]
+            game_folder = os.path.dirname(exe_path)
             
-            # Key Change: Get the specific directory for THIS game's executable
-            game_dir = os.path.dirname(exe_path)
-            
-            print(f"Starting {g['name']} in {game_dir}...")
-            
+            print(f"Launching from: {game_folder}")
             try:
-                # Use 'cwd' to tell the game to look in its own folder for files
-                # Changed shell to False for better stability with direct exe paths
-                subprocess.Popen([exe_path] + g['args'], cwd=game_dir, shell=False)
-                time.sleep(2) 
+                # Use the specific game's folder as the 'cwd' so it finds its files
+                subprocess.Popen([exe_path] + GAMES[choice]['args'], cwd=game_folder, shell=False)
+                print("Success! Closing in 2 seconds...")
+                time.sleep(2)
+                break
             except Exception as e:
-                print(f"Error launching game: {e}")
+                print(f"Blocked by school security: {e}")
                 time.sleep(3)
-                
-        elif choice == 'S':
-            os.system("shutdown /s /t 0")
-        elif choice == 'L':
-            os.system("shutdown /l")
         elif choice == 'Q':
             break
 
 if __name__ == "__main__":
     run_launcher()
+
