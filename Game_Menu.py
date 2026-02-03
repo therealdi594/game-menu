@@ -2,69 +2,66 @@
 import os
 import subprocess
 import time
+import sys
+from pathlib import Path
 
-# Get the current user's home folder (e.g., C:\Users\Student123)
-user_home = os.environ.get('USERPROFILE')
-downloads_path = os.path.join(user_home, "Downloads")
+# --- CONFIGURATION ---
+class Colors:
+    HEADER = '\033[95m'
+    BLUE = '\033[94m'
+    CYAN = '\033[96m'
+    GREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
 
-# --- THE GAMES ---
-# We use relative folders from the Downloads folder
-GAMES = {
-    "1": {
+# List of common places to look for game folders
+SEARCH_DIRS = [
+    Path(os.environ.get('USERPROFILE', '')),  # User Home
+    Path(os.environ.get('USERPROFILE', '')) / "Downloads",
+    Path(os.environ.get('USERPROFILE', '')) / "Desktop",
+    Path(os.environ.get('USERPROFILE', '')) / "Documents",
+    Path.cwd() # The folder this script is running in
+]
+
+# Game Definitions
+# 'exe_path' should be the relative path from the folder found in SEARCH_DIRS
+GAME_DB = [
+    {
+        "id": "1",
         "name": "Geometry Dash",
         "rel_path": r"Geometry_Dash\Geometry_Dash\Geometry-Dash-AnkerGames\Geometry_Dash\GeometryDash.exe",
         "args": ["-game", "-novid"]
     },
-    "2": {
+    {
+        "id": "2",
         "name": "Portal",
         "rel_path": r"Portal\Portal\Portal\Portal.exe",
         "args": ["-game", "-novid"]
     },
-    "3": {
+    {
+        "id": "3",
         "name": "DOOM 64",
         "rel_path": r"DOOM-64-AnkerGames\Doom 64\DOOM64_x64.exe",
         "args": ["-game", "-novid"]
     }
-}
+]
 
-def run_launcher():
-    while True:
-        os.system('cls' if os.name == 'nt' else 'clear')
-        print(f"=== SCHOOL LAUNCHER | USER: {os.getlogin()} ===")
-        
-        valid_games = {}
-        for key, game in GAMES.items():
-            # Combine Downloads path with the game's specific folder
-            full_exe_path = os.path.join(downloads_path, game['rel_path'])
-            
-            if os.path.exists(full_exe_path):
-                print(f"{key}: {game['name']} [READY]")
-                valid_games[key] = full_exe_path
-            else:
-                print(f"{key}: {game['name']} [NOT FOUND IN DOWNLOADS]")
-        
-        print("-" * 40)
-        print("Q: Quit")
-        
-        choice = input("\nSelect Game: ").upper()
-        
-        if choice in valid_games:
-            exe_path = valid_games[choice]
-            game_folder = os.path.dirname(exe_path)
-            
-            print(f"Launching from: {game_folder}")
-            try:
-                # Use the specific game's folder as the 'cwd' so it finds its files
-                subprocess.Popen([exe_path] + GAMES[choice]['args'], cwd=game_folder, shell=False)
-                print("Success! Closing in 2 seconds...")
-                time.sleep(2)
-                break
-            except Exception as e:
-                print(f"Blocked by school security: {e}")
-                time.sleep(3)
-        elif choice == 'Q':
-            break
+def clear_screen():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
-if __name__ == "__main__":
-    run_launcher()
+def find_game_path(relative_path):
+    """
+    Scans SEARCH_DIRS to find where the game folder is hiding.
+    Returns the full Path object if found, else None.
+    """
+    for directory in SEARCH_DIRS:
+        if directory.exists():
+            full_path = directory / relative_path
+            if full_path.exists():
+                return full_path
+    return None
 
+def print_header():
+    clear_
